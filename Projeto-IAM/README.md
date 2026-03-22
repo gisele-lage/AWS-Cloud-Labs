@@ -231,3 +231,71 @@ Ao final da etapa, cada grupo possuía um usuário associado, conforme definido 
 Ao serem adicionados aos grupos, os usuários passaram a herdar automaticamente as permissões associadas às políticas vinculadas a cada grupo.
 
 Essa abordagem elimina a necessidade de atribuir permissões individualmente, tornando o gerenciamento de acesso mais escalável, organizado e alinhado às boas práticas de segurança, como o princípio do menor privilégio.
+
+## 🔐 URL de Login do IAM
+
+O acesso foi realizado por meio de uma **URL específica para usuários do IAM**.  
+Esta URL permite que usuários criados no IAM acessem a conta sem utilizar o usuário root e com ID do root já embutido na URL, garantindo **maior segurança e controle de acesso**.
+
+![URL de Login do IAM](./images/iam_login_url.png)
+
+---
+
+## 👤 Testes de Acesso por Usuário
+
+### 🔹 user-1 (S3 Support)
+- ✅ Conseguiu acessar o **Amazon S3** e visualizar buckets  
+  ![S3 user-1 funcionando](./images/s3_user1_acesso.png)
+- ❌ Não conseguiu acessar o **Amazon EC2**  
+  ![EC2 user-1 negado](./images/ec2_user1_negado.png)
+
+**Resultado:** acesso restrito corretamente ao serviço S3.
+
+---
+
+### 🔹 user-2 (EC2 Support)
+- ✅ Conseguiu **visualizar instâncias do EC2**  
+  ![EC2 user-2 visualização](./images/ec2_user2_visualizacao.png)
+- ❌ Não conseguiu **interromper instâncias**  
+  ![EC2 user-2 tentar parar erro](./images/ec2_user2_tentar_parar_erro.png)
+- ❌ Não conseguiu acessar o **S3**  
+  ![S3 user-2 negado](./images/s3_user2_negado.png)
+
+**Resultado:** acesso de leitura aplicado corretamente (sem permissões de modificação).
+
+---
+
+### 🔹 user-3 (EC2 Admin)
+- ✅ Conseguiu **interromper instâncias EC2**  
+  ![EC2 user-3 parando sucesso](./images/ec2_user3_parando_sucesso.png)
+
+**Resultado:** usuário com permissões completas (admin) executando ações corretamente. ⭐
+
+---
+
+## 📌 Observações Finais
+- Cada print demonstra a **aplicação correta das políticas de IAM**.  
+- Prova de acesso negado e permitido é essencial para **validar a segurança e segregação de funções**.
+
+---
+
+## 📝 Conclusão
+
+Este laboratório permitiu aplicar, de forma prática, conceitos essenciais de **controle de acesso em ambientes cloud** utilizando o **AWS Identity and Access Management (IAM)**.
+
+### Principais aprendizados:
+
+- **Gerenciamento baseado em grupos:**  
+  - Abordagem eficiente e escalável para gerenciar permissões.  
+  - Facilita a administração de acessos e reduz riscos de configurações incorretas.
+
+- **Validação de acessos:**  
+  - Testar permissões com diferentes usuários é fundamental.  
+  - Garante que os acessos estejam alinhados com as necessidades de cada perfil.
+
+- **Segurança na nuvem:**  
+  - O laboratório reforça a importância de políticas de acesso bem definidas.  
+  - Demonstra que o IAM é um **componente essencial para proteção de recursos e controle de acesso** em ambientes AWS.
+
+✅ **Resumo final:**  
+O exercício evidencia que o IAM não é apenas uma ferramenta de gestão, mas uma peça-chave para **segurança, compliance e governança** na nuvem, mostrando como aplicar práticas seguras de forma prática e escalável.
