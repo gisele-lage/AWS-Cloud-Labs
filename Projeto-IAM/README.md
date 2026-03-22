@@ -185,3 +185,49 @@ Durante a análise, foi possível observar que as políticas seguem uma estrutur
 - **Effect**: define se a ação é permitida ou negada  
 - **Action**: especifica quais ações podem ser executadas  
 - **Resource**: define os recursos aos quais a regra se aplica  
+
+### 🔗 Associação de Usuários a Grupos
+
+Nesta etapa, foi realizada a associação dos usuários aos grupos previamente configurados no AWS Identity and Access Management (IAM), conforme a definição de acessos estabelecida no cenário de negócio.
+
+---
+
+## 📌 Situação Inicial
+
+Antes da associação, os grupos não possuíam usuários vinculados:
+
+![Grupo S3 sem usuários](./images/iam-s3-support-empty.png)
+
+---
+
+## ➕ Adição de Usuários aos Grupos
+
+A associação foi realizada adicionando os usuários aos respectivos grupos, permitindo que herdassem automaticamente as permissões definidas nas políticas.
+
+Exemplo de adição do usuário ao grupo:
+
+![Adicionando usuário ao grupo](./images/iam-s3-support-with-user1.png)
+
+---
+
+## ✅ Resultado da Associação
+
+Após a configuração, os usuários passaram a fazer parte dos grupos correspondentes:
+
+![Grupo com usuário associado](./images/iam-add-user1-to-s3-support.png)
+
+---
+
+## 📊 Validação Final
+
+Ao final da etapa, cada grupo possuía um usuário associado, conforme definido no cenário:
+
+![Grupos com usuários](./images/iam-groups-with-users.png)
+
+---
+
+## 💡 Considerações
+
+Ao serem adicionados aos grupos, os usuários passaram a herdar automaticamente as permissões associadas às políticas vinculadas a cada grupo.
+
+Essa abordagem elimina a necessidade de atribuir permissões individualmente, tornando o gerenciamento de acesso mais escalável, organizado e alinhado às boas práticas de segurança, como o princípio do menor privilégio.
