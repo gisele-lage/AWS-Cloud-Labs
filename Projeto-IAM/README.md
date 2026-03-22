@@ -48,3 +48,19 @@ Implementar e testar um sistema de gerenciamento de identidades e acessos na AWS
 - Políticas de permissão (IAM Policies)  
 - Princípio do menor privilégio  
 - Controle de acesso em nuvem  
+
+---
+
+## 🏗️ Estrutura de Permissões (IAM)
+
+Este projeto utiliza uma abordagem baseada em grupos para gerenciar permissões de acesso aos serviços da AWS.
+
+A estrutura segue o princípio do menor privilégio, garantindo que cada usuário tenha apenas as permissões necessárias para executar suas atividades.
+
+O modelo adotado representa a relação entre:
+
+- Usuários  
+- Grupos  
+- Políticas de permissão  
+
+> Diagrama desenvolvido utilizando draw.io (diagrams.net)
