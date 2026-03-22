@@ -73,7 +73,7 @@ Nesta etapa, foi realizada a configuração da política de senhas da conta no A
 
 #### 🔧 Configuração
 
-![Edição da política de senha](./imagens/password-edit.png.png)
+![Edição da política de senha](./images/password-edit.png)
 
 A política foi ajustada para atender a requisitos mais rigorosos, incluindo:
 
@@ -89,6 +89,6 @@ A política foi ajustada para atender a requisitos mais rigorosos, incluindo:
 
 #### ✅ Resultado
 
-![Política de senha aplicada](./imagens/password-applied.png.png)
+![Política de senha aplicada](./images/password-applied.png)
 
 Após a configuração, as alterações foram aplicadas com sucesso, passando a valer para todos os usuários da conta.
