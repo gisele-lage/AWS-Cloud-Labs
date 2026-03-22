@@ -64,3 +64,31 @@ O modelo adotado representa a relação entre:
 - Políticas de permissão  
 
 > Diagrama desenvolvido utilizando draw.io (diagrams.net)
+
+## ⚙️ Implementação Prática
+
+### 🔐 Configuração da Política de Senha
+
+Nesta etapa, foi realizada a configuração da política de senhas da conta no AWS Identity and Access Management (IAM), com o objetivo de reforçar a segurança no acesso aos usuários.
+
+#### 🔧 Configuração
+
+![Edição da política de senha](./imagens/password-edit.png.png)
+
+A política foi ajustada para atender a requisitos mais rigorosos, incluindo:
+
+- Comprimento mínimo de **10 caracteres**  
+- Obrigatoriedade de:
+  - Letras maiúsculas  
+  - Letras minúsculas  
+  - Números  
+  - Caracteres especiais  
+- Expiração de senha configurada para **90 dias**  
+- Prevenção de reutilização das últimas **5 senhas**  
+- Permissão para que usuários alterem suas próprias senhas  
+
+#### ✅ Resultado
+
+![Política de senha aplicada](./imagens/password-applied.png.png)
+
+Após a configuração, as alterações foram aplicadas com sucesso, passando a valer para todos os usuários da conta.
