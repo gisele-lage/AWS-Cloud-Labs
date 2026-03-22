@@ -6,7 +6,7 @@ Repositório dedicado à documentação técnica e prática de serviços AWS, in
 Demonstrar a implementação de arquiteturas seguras e escaláveis na AWS, focando em automação e melhores práticas de governança de TI.
 
 ## 📚 Índice de Laboratórios
-* [**Lab 01: IAM & Segurança de Identidade**](./Projeto-IAM) - Gestão de acessos, políticas de senha e auditoria de grupos.
+* [**Lab 01: IAM & Segurança de Identidade**](./Projeto-IAM/README.md) - Gestão de acessos, políticas de senha e auditoria de grupos.
 * *(Próximos labs serão adicionados aqui...)*
 
 ---
