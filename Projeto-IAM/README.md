@@ -92,3 +92,96 @@ A política foi ajustada para atender a requisitos mais rigorosos, incluindo:
 ![Política de senha aplicada](./images/password-applied.png)
 
 Após a configuração, as alterações foram aplicadas com sucesso, passando a valer para todos os usuários da conta.
+
+### 👥 Exploração de Usuários, Grupos e Políticas do IAM
+
+Nesta etapa, foi realizada a análise da estrutura de usuários, grupos e permissões no AWS Identity and Access Management (IAM).
+
+O ambiente já possuía usuários e grupos previamente configurados, conforme o padrão do laboratório, não sendo permitida a criação de novos recursos. O foco desta etapa foi compreender como o controle de acesso é estruturado.
+
+---
+
+## 👤 Análise dos Usuários
+
+Foram identificados três usuários no ambiente:
+
+![Lista de usuários](./images/iam-users-list.png)
+
+- user-1  
+- user-2  
+- user-3  
+
+Ao analisar o usuário **user-2**, observou-se que:
+
+![User sem permissões](./images/iam-user2-no-permissions.png)
+
+- Não possui permissões diretamente atribuídas  
+
+![User sem grupo](./images/iam-user2-no-groups.png)
+
+- Não pertence a nenhum grupo  
+- Possui credenciais de acesso ao console  
+
+Essa configuração demonstra que, sem associação a grupos ou políticas, o usuário não possui acesso efetivo aos recursos da AWS.
+
+> Este comportamento evidencia que, no IAM, as permissões devem ser explicitamente atribuídas, seja por meio de grupos ou políticas.
+
+---
+
+## 👥 Análise dos Grupos de Usuários
+
+Foram analisados os seguintes grupos:
+
+![Lista de grupos](./images/iam-groups-list.png)
+
+- EC2 Admin  
+- EC2 Support  
+- S3 Support  
+
+Cada grupo possui permissões específicas associadas por meio de políticas, facilitando o gerenciamento centralizado de acessos.
+
+---
+
+## 📜 Análise das Políticas de Permissão
+
+### 🔹 EC2 Support
+
+![Policy EC2 Support](./images/iam-ec2-support-policy.png)
+
+- Política associada: **AmazonEC2ReadOnlyAccess**  
+- Tipo: política gerenciada pela AWS  
+- Permissões: permite visualizar recursos do EC2, sem possibilidade de modificação  
+
+---
+
+### 🔹 S3 Support
+
+- Política associada: **AmazonS3ReadOnlyAccess**  
+- Tipo: política gerenciada pela AWS  
+- Permissões: permite listar e visualizar recursos do Amazon S3  
+
+---
+
+### 🔹 EC2 Admin ⭐
+
+![Inline Policy](./images/iam-ec2-admin-inline-policy.png)
+
+- Política associada: **EC2-Admin-Policy**  
+- Tipo: política inline (customizada)  
+- Permissões:
+  - Visualizar recursos (Describe)  
+  - Iniciar e parar instâncias EC2  
+
+> Diferente das demais, esta política é do tipo inline, sendo exclusiva deste grupo e não reutilizável.
+
+---
+
+## 🧩 Estrutura das Políticas IAM
+
+Durante a análise, foi possível observar que as políticas seguem uma estrutura padrão:
+
+![Estrutura da policy (JSON)](./images/iam-policy-json.png)
+
+- **Effect**: define se a ação é permitida ou negada  
+- **Action**: especifica quais ações podem ser executadas  
+- **Resource**: define os recursos aos quais a regra se aplica  
