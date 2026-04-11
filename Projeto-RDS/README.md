@@ -1,4 +1,4 @@
-# 🗄️ Banco de Dados Relacional na AWS com RDS
+# 🗄️ Banco de Dados Relacional na AWS com RDS - implementação e problemas encontrados
 
 ---
 
@@ -97,6 +97,21 @@ O ambiente foi estruturado em uma VPC com duas Zonas de Disponibilidade:
 
 ---
 
+## ⚠️ Problemas Encontrados
+
+Durante a execução do laboratório, alguns erros inesperados ocorreram:
+
+- **Erro de conexão via SSH**: tentativa inicial falhou por uso incorreto do comando (inclusão de `< >` no IP).  
+  - **Solução**: corrigido comando para `ssh -i labsuser.pem ec2-user@<IP>` sem os símbolos.  
+
+- **Erro de acesso ao RDS**: primeira tentativa de login no MySQL retornou *Access denied*.  
+  - **Solução**: conferida senha e banco correto, segunda tentativa funcionou.  
+
+- **Banco vazio**: ao rodar `SHOW TABLES;`, não havia tabelas criadas.  
+  - **Solução**: criação manual de tabelas de teste (`usuarios`, `pedidos`) para validar a integração.  
+
+---
+
 ## 📊 Validação Final
 
 - O servidor web acessa o banco com sucesso.  
@@ -114,8 +129,7 @@ Este laboratório demonstrou a implementação prática de um banco de dados rel
 - **Alta disponibilidade**: configuração Multi-AZ com failover automático.  
 - **Integração**: aplicação web conectada ao banco via endpoint único.  
 - **Boas práticas**: banco em subnets privadas, aplicação em subnets públicas.  
+- **Resolução de problemas**: erros inesperados documentados e corrigidos durante a prática.  
 
 ✅ **Resumo final:**  
-O exercício evidencia que o Amazon RDS é uma solução robusta para cargas de trabalho críticas, oferecendo **resiliência, segurança e simplicidade de gerenciamento** em ambientes de nuvem.
-
-
+O exercício evidencia que o Amazon RDS é uma solução robusta para cargas de trabalho críticas, oferecendo **resiliência, segurança e simplicidade de gerenciamento** em ambientes de nuvem, mesmo diante de falhas inesperadas.
