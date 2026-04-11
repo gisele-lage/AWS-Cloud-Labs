@@ -7,6 +7,7 @@ Demonstrar a implementação de arquiteturas seguras e escaláveis na AWS, focan
 
 ## 📚 Índice de Laboratórios
 * [**Lab 01: IAM & Segurança de Identidade**](./Projeto-IAM/README.md) - Gestão de acessos, políticas de senha e auditoria de grupos.
+* [**Lab 02: RDS & Banco de Dados Relacional**](./Projeto-RDS/README.md) - Criação de instância RDS Multi-AZ, configuração de segurança e integração com aplicação web.
 * *(Próximos labs serão adicionados aqui...)*
 
 ---
