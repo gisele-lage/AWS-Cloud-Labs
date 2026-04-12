@@ -87,9 +87,13 @@ O ambiente foi estruturado em uma VPC com duas Zonas de Disponibilidade:
 ![Instância RDS criada](./images/Criando-RDS-4.png)
 ![Instância RDS criada](./images/Criando-RDS-6.png)
 ![Instância RDS criada](./images/Criando-RDS-7.png)
-AQUI ESCREVE ALGUMA COISA APOS AS CONFIGURAÇÕES E ANTES DE MOSTRAR AS TELAS ABAIXO
+
+Após definir todas as configurações da instância, o console da AWS apresenta uma série de telas de confirmação.  
+Essas telas registram o processo de criação do RDS e mostram o status de provisionamento até que o banco esteja disponível para uso.
+
 ![Instância RDS criada](./images/Tela-Criando-RDS.png)
 ![Instância RDS criada](./images/BD-RDS-Disponivel.png)
+
 ---
 
 ### 🔗 Integração com Aplicação Web
@@ -139,3 +143,4 @@ Este laboratório demonstrou a implementação prática de um banco de dados rel
 
 ✅ **Resumo final:**  
 O exercício evidencia que o Amazon RDS é uma solução robusta para cargas de trabalho críticas, oferecendo **resiliência, segurança e simplicidade de gerenciamento** em ambientes de nuvem, mesmo diante de falhas inesperadas.
+
