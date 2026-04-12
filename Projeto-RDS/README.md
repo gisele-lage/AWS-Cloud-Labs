@@ -123,6 +123,54 @@ O processo envolveu acessar o servidor web, preencher os dados de conexão com o
 
 ---
 
+## 📝 Conexão via SSH (Alternativa Funcional)
+
+Como a conexão direta pelo servidor web não funcionou, foi necessário utilizar a instância EC2 acessada por **SSH** para se conectar ao RDS.  
+Nos dois métodos a EC2 é utilizada:  
+- No método do **lab**, a aplicação web da EC2 tenta se conectar ao RDS, mas falha.  
+- No método alternativo via **SSH**, a conexão é feita manualmente de dentro da EC2 usando o cliente MySQL, e funciona corretamente.  
+
+Passo a passo documentado:
+
+- Conexão SSH feita  
+![Conexao-SSH-1](./images/Conexao-SSH-1.png)
+
+- Cliente MySQL instalado  
+![Cliente-MySQL-Instalado](./images/Cliente-MySQL-Instalado.png)
+
+- Entrou na instância do servidor RDS  
+![Entrou-Banco](./images/Entrou-Banco.png)
+
+- Mostrou bancos de dados do servidor  
+![BD-Servidor](./images/BD-Servidor.png)
+
+- Entrou no BD `lab1` que está vazio  
+![BD-lab1-Vazio](./images/BD-lab1-Vazio.png)
+
+- Criou tabela nesse BD  
+![Criar-Tabela-lab1](./images/Criar-Tabela-lab1.png)
+
+- Inseriu valores na tabela  
+![Inseriu-Valores-Tabela](./images/Inseriu-Valores-Tabela.png)
+
+- Mostrou o registro da tabela  
+![Mostrou-Registro-Tabela](./images/Mostrou-Registro-Tabela.png)
+
+- Fechou conexão com RDS e EC2  
+![Conexao-Fechada](./images/Conexao-Fechada.png)
+
+---
+
+## 📌 Evidência do Problema no Lab
+A tentativa de conexão direta pelo servidor web (preenchendo endpoint, database, usuário e senha) resultou em **erro de conexão**.  
+Isso comprova que o problema está na configuração do laboratório: o RDS não aceita esse tipo de acesso direto pela aplicação web.  
+
+Nos dois casos a EC2 é utilizada:  
+- No método do **lab**, a aplicação web da EC2 tenta se conectar ao RDS, mas falha.  
+- No método alternativo via **SSH**, a conexão é feita manualmente de dentro da EC2 usando o cliente MySQL, e funciona corretamente.  
+
+---
+
 ## 📊 Validação Final
 
 - O servidor web acessa o banco com sucesso.  
@@ -144,4 +192,3 @@ Este laboratório demonstrou a implementação prática de um banco de dados rel
 
 ✅ **Resumo final:**  
 O exercício evidencia que o Amazon RDS é uma solução robusta para cargas de trabalho críticas, oferecendo **resiliência, segurança e simplicidade de gerenciamento** em ambientes de nuvem, mesmo diante de falhas inesperadas.
-
