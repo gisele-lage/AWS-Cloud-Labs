@@ -104,22 +104,22 @@ Esse endpoint é essencial para a integração, pois substitui o IP direto e gar
 
 ---
 
-## 🔗 Etapa 4 – Tentativa de Conexão pela EC2
+## 🔗 Tentativa de Conexão pela EC2
 
 Nesta etapa, foi realizada a tentativa de conexão ao banco de dados RDS a partir da instância EC2.  
 O processo envolveu acessar o servidor web, preencher os dados de conexão com o endpoint do RDS e validar a comunicação.
 
-- Tela da instância EC2:  
+- Tela da instância EC2
 ![Instância EC2](./images/EC2-site.png)
 
 - Tela de preenchimento dos dados de conexão com o endpoint RDS:  
 ![Conexão EC2 com Endpoint](./images/Conexao-EC2-Endpoint.png)
 
-- Tela de erro de conexão:  
+- Tela de erro de conexão  
 ![Problema de Conexão](./images/Problema-Conexao.png)
 
 > **Erro encontrado:** a aplicação não conseguiu se conectar ao banco de dados RDS diretamente.  
-> **Alternativa:** utilizar acesso via **SSH** para estabelecer a conexão, que será detalhado no próximo tópico.
+> **Alternativa:** utilizei acesso via **SSH** para estabelecer a conexão, que será detalhado no próximo tópico.
 
 ---
 
