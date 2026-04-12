@@ -42,78 +42,82 @@ O projeto segue o modelo de arquitetura padrão de mercado para alta disponibili
 
 ### 1. Criação da VPC e Infraestrutura Base
 
-A primeira etapa consistiu no provisionamento da VPC utilizando o assistente, garantindo a criação automatizada dos componentes de conectividade inicial.
+A primeira etapa consistiu no provisionamento da VPC utilizando o assistente, garantindo a criação automatizada dos componentes de conectividade inicial e a definição dos blocos de IP.
 
-#### 🔧 Configuração da VPC
-![Configurações da VPC](./images/vpc-creation-details.png)
-*(Print da tela de criação da VPC com os detalhes de CIDR e nome)*
+#### 🔧 Configuração Inicial da VPC
+![Configuração Inicial Parte 1](./images/Config-Inicial-VPC1.png)
+![Configuração Inicial Parte 2](./images/Config-Inicial-VPC2.png)
+
+#### 📋 Detalhes da VPC Criada
+![Detalhes da VPC](./images/vpc-details.png)
 
 - **Nome:** `Lab VPC`
 - **CIDR:** `10.0.0.0/16`
-- **Componentes:** 1 Sub-rede Pública, 1 Sub-rede Privada e 1 NAT Gateway.
+- **Componentes:** 1 Sub-rede Pública, 1 Sub-rede Privada e 1 NAT Gateway inicial.
 
 ---
 
 ### 2. Expansão para Alta Disponibilidade (Multi-AZ)
 
-Para atender aos requisitos de resiliência, foram criadas sub-redes adicionais manualmente em uma segunda Zona de Disponibilidade.
+Para atender aos requisitos de resiliência e alta disponibilidade, foram criadas sub-redes adicionais manualmente numa segunda Zona de Disponibilidade.
 
-| Sub-rede | Bloco CIDR | Tipo |
-| :--- | :--- | :--- |
-| Public Subnet 2 | `10.0.2.0/24` | Pública |
-| Private Subnet 2 | `10.0.3.0/24` | Privada |
+#### 🛠️ Processo de Criação de Sub-redes
+![Criação da Sub-rede Pública 2](./images/Criacao-Outra-Subrede-1.png)
+![Criação da Sub-rede Privada 2](./images/Criacao-Outras-Subrede.png)
 
-#### ✅ Sub-redes Criadas
-![Lista de sub-redes](./images/vpc-subnets-list.png)
-*(Print da lista de sub-redes no console da AWS mostrando as 4 subnets)*
+#### ✅ Lista Final de Sub-redes
+![Lista completa de sub-redes](./images/subnets-list.png)
 
 ---
 
-### 3. Associação de Tabelas de Rotas
+### 3. Configuração de Roteamento e Associações
 
-Nesta fase, as novas sub-redes foram associadas às tabelas de rotas corretas para garantir que a `Public Subnet 2` tivesse acesso ao Internet Gateway e a `Private Subnet 2` ao NAT Gateway.
+Nesta fase, as sub-redes foram organizadas dentro das tabelas de rotas para garantir que o tráfego público e privado seguisse os caminhos corretos (Internet Gateway vs NAT Gateway).
 
-#### 🔗 Associações de Rota
-![Associações de tabela de rotas](./images/vpc-route-associations.png)
-*(Print da aba 'Subnet associations' de uma das tabelas de rotas)*
+#### 🛣️ Tabelas de Rotas Identificadas
+![Tabelas de rotas da VPC](./images/Tabela-Rotas-Subredes.png)
+
+#### 🔗 Associações Explícitas
+![Associação Tabela Pública](./images/Associa-Tabela-Rota-Publica.png)
+![Associação Tabela Privada](./images/Associa-Tabela-Rota-Privada.png)
 
 ---
 
 ### 4. Configuração do Web Security Group (Firewall)
 
-Foi criado um grupo de segurança específico para permitir o tráfego web, seguindo o princípio de liberar apenas o necessário.
+Foi criado um grupo de segurança específico para a instância EC2, atuando como um firewall virtual para controlar o tráfego de entrada.
+
+#### 🛡️ Criação do Grupo de Segurança
+![Criação do Security Group](./images/Criar-Grupo-Seguranca-EC2.png)
 
 - **Regra de Entrada:** Porta `80` (HTTP) liberada para `0.0.0.0/0`.
-- **Descrição:** Permite requisições web externas.
-
-#### 🛡️ Regras do Grupo de Segurança
-![Regras de entrada HTTP](./images/vpc-security-group-rules.png)
-*(Print das 'Inbound Rules' do Web Security Group)*
+- **Objetivo:** Permitir apenas tráfego web legítimo para o servidor.
 
 ---
 
-### 5. Deployment e Validação do Servidor Web
+### 5. Deployment do Servidor Web (EC2)
 
-Por fim, uma instância EC2 foi lançada na `Public Subnet 2` com um script de automação (User Data) para instalar o servidor Apache.
+Para validar toda a infraestrutura de rede, foi lançada uma instância EC2 na sub-rede pública, configurada para responder como um servidor web.
 
-#### 🚀 Status da Instância
-![Instância EC2 rodando](./images/ec2-status-check.png)
-*(Print da instância com o status '2/2 checks passed')*
+#### 🚀 Instância Provisionada
+![Instância EC2 Criada](./images/EC2-Criada.png)
 
-#### 🌐 Validação do Acesso Externo
-![Página web funcionando](./images/web-server-success.png)
-*(Print do seu navegador exibindo a página do servidor através do DNS Público)*
+---
+
+## 🔍 Resolução de Problemas (Troubleshooting)
+
+*(Espaço reservado para documentar a análise do erro de conexão e a solução final encontrada para o acesso ao servidor web).*
 
 ---
 
 ## 📝 Conclusão
 
-Este laboratório demonstrou a importância de uma rede bem estruturada para a segurança e disponibilidade de serviços em nuvem. 
+Este laboratório permitiu aplicar conceitos fundamentais de arquitetura de rede em nuvem, garantindo a segregação de tráfego e a alta disponibilidade através de múltiplas zonas de disponibilidade.
 
 ### Principais aprendizados:
 
-- **Segmentação de Rede:** A separação entre sub-redes públicas e privadas é vital para proteger dados sensíveis.
-- **Roteamento Inteligente:** O uso coordenado de Internet Gateways e NAT Gateways permite controle total sobre o fluxo de dados.
-- **Automação de Provisionamento:** O uso de *User Data* no EC2 mostra como a nuvem facilita o deploy rápido de serviços.
+- **Isolamento de Recursos:** A importância de manter bases de dados em sub-redes privadas.
+- **Roteamento:** Como controlar o fluxo de saída de internet via NAT Gateway.
+- **Segurança em Camadas:** A combinação de tabelas de rotas e grupos de segurança para proteção do ambiente.
 
-✅ **Resumo final:** A infraestrutura implementada está pronta para suportar aplicações de alta escala, garantindo que o servidor web esteja disponível para o mundo enquanto a rede interna permanece protegida.
+✅ **Resumo final:** A infraestrutura implementada reflete as melhores práticas de mercado para ambientes corporativos seguros e resilientes na AWS.
