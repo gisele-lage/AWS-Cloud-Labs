@@ -71,18 +71,23 @@ O ambiente foi estruturado em uma VPC com duas Zonas de Disponibilidade:
   - 10.0.3.0/24 (AZ B)  
 
 ![Configuração do Subnet Group](./images/db-subnet-group.png)
+![Configuração do Subnet Group](./images/db-subnet-group-1.png)
 
 ---
 
 ### 🗄️ Instância RDS Multi-AZ
 - Engine: **MySQL**  
-- Identificador: `lab-db`  
+- Identificador: `db-lab`  
 - Classe: `db.t3.medium`  
-- Banco inicial criado: `lab`  
-- Monitoramento avançado habilitado  
-- Backups automáticos desativados (apenas para agilizar o laboratório)  
+- Banco inicial criado: `lab1`   
 
-![Instância RDS criada](./images/rds-instance.png)
+![Instância RDS criada](./images/Criando-RDS-1.png)
+![Instância RDS criada](./images/Criando-RDS-2.png)
+![Instância RDS criada](./images/Criando-RDS-3.png)
+![Instância RDS criada](./images/Criando-RDS-4.png)
+![Instância RDS criada](./images/Criando-RDS-5.png)
+![Instância RDS criada](./images/Criando-RDS-6.png)
+![Instância RDS criada](./images/Criando-RDS-7.png)
 
 ---
 
