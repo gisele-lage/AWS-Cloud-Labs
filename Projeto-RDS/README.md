@@ -85,10 +85,11 @@ O ambiente foi estruturado em uma VPC com duas Zonas de Disponibilidade:
 ![Instância RDS criada](./images/Criando-RDS-2.png)
 ![Instância RDS criada](./images/Criando-RDS-3.png)
 ![Instância RDS criada](./images/Criando-RDS-4.png)
-![Instância RDS criada](./images/Criando-RDS-5.png)
 ![Instância RDS criada](./images/Criando-RDS-6.png)
 ![Instância RDS criada](./images/Criando-RDS-7.png)
-
+AQUI ESCREVE ALGUMA COISA APOS AS CONFIGURAÇÕES E ANTES DE MOSTRAR AS TELAS ABAIXO
+![Instância RDS criada](./images/Tela-Criando-RDS.png)
+![Instância RDS criada](./images/BD-RDS-Disponivel.png)
 ---
 
 ### 🔗 Integração com Aplicação Web
