@@ -95,18 +95,17 @@ Foi criado um grupo de segurança específico para a instância EC2, atuando com
 
 ---
 
-### 5. Deployment do Servidor Web (EC2)
+### 5. Deployment e Validação Final
 
-Para validar toda a infraestrutura de rede, foi lançada uma instância EC2 na sub-rede pública, configurada para responder como um servidor web.
+Para validar toda a infraestrutura de rede, foi lançada uma instância EC2 na sub-rede pública com um script de automação para o servidor web.
 
 #### 🚀 Instância Provisionada
 ![Instância EC2 Criada](./images/EC2-Criada.png)
 
----
+#### 🌐 Resultado: Acesso Externo Confirmado
+![Página web funcionando](./images/EC2-Resultado.png)
 
-## 🔍 Resolução de Problemas (Troubleshooting)
-
-*(Espaço reservado para documentar a análise do erro de conexão e a solução final encontrada para o acesso ao servidor web).*
+O sucesso no carregamento da página personalizada da **CloudCorp Global Solutions** confirma que a VPC está configurada corretamente, com rotas externas funcionais e segurança de rede aplicada.
 
 ---
 
@@ -116,8 +115,8 @@ Este laboratório permitiu aplicar conceitos fundamentais de arquitetura de rede
 
 ### Principais aprendizados:
 
-- **Isolamento de Recursos:** A importância de manter bases de dados em sub-redes privadas.
-- **Roteamento:** Como controlar o fluxo de saída de internet via NAT Gateway.
-- **Segurança em Camadas:** A combinação de tabelas de rotas e grupos de segurança para proteção do ambiente.
+- **Isolamento de Recursos:** A importância de manter bases de dados e recursos sensíveis em sub-redes privadas.
+- **Roteamento:** Como controlar o fluxo de saída e entrada de tráfego via Internet Gateways.
+- **Automação (User Data):** O poder de configurar serviços automaticamente durante o provisionamento da infraestrutura.
 
-✅ **Resumo final:** A infraestrutura implementada reflete as melhores práticas de mercado para ambientes corporativos seguros e resilientes na AWS.
+✅ **Resumo final:** A infraestrutura implementada reflete as melhores práticas de mercado para ambientes corporativos seguros, escaláveis e resilientes na AWS.
