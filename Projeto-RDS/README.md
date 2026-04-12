@@ -96,29 +96,30 @@ Essas telas registram o processo de criação do RDS e mostram o status de provi
 
 ---
 
-### 🔗 Integração com Aplicação Web
-- Aplicação web configurada com endpoint do RDS  
-- Conexão estabelecida com o banco `lab`  
-- Testes realizados: adicionar, editar e remover contatos no catálogo de endereços  
-- Dados replicados automaticamente para a segunda AZ  
+### 📡 Endpoint da Instância RDS
+Após a criação, o console fornece o **endpoint** da instância, que é utilizado pela aplicação web ou pelo cliente MySQL para se conectar ao banco de dados.  
+Esse endpoint é essencial para a integração, pois substitui o IP direto e garante acesso ao banco em alta disponibilidade.
 
-![Configuração do App Web](./images/web-app-config.png)  
-![Catálogo de Endereços funcionando](./images/address-book.png)
+![Endpoint da Instância RDS](./images/Endpoint-RDS.png)
 
 ---
 
-## ⚠️ Problemas Encontrados
+## 🔗 Etapa 4 – Tentativa de Conexão pela EC2
 
-Durante a execução do laboratório, alguns erros inesperados ocorreram:
+Nesta etapa, foi realizada a tentativa de conexão ao banco de dados RDS a partir da instância EC2.  
+O processo envolveu acessar o servidor web, preencher os dados de conexão com o endpoint do RDS e validar a comunicação.
 
-- **Erro de conexão via SSH**: tentativa inicial falhou por uso incorreto do comando (inclusão de `< >` no IP).  
-  - **Solução**: corrigido comando para `ssh -i labsuser.pem ec2-user@<IP>` sem os símbolos.  
+- Tela da instância EC2:  
+![Instância EC2](./images/EC2-site.png)
 
-- **Erro de acesso ao RDS**: primeira tentativa de login no MySQL retornou *Access denied*.  
-  - **Solução**: conferida senha e banco correto, segunda tentativa funcionou.  
+- Tela de preenchimento dos dados de conexão com o endpoint RDS:  
+![Conexão EC2 com Endpoint](./images/Conexao-EC2-Endpoint.png)
 
-- **Banco vazio**: ao rodar `SHOW TABLES;`, não havia tabelas criadas.  
-  - **Solução**: criação manual de tabelas de teste (`usuarios`, `pedidos`) para validar a integração.  
+- Tela de erro de conexão:  
+![Problema de Conexão](./images/Problema-Conexao.png)
+
+> **Erro encontrado:** a aplicação não conseguiu se conectar ao banco de dados RDS diretamente.  
+> **Alternativa:** utilizar acesso via **SSH** para estabelecer a conexão, que será detalhado no próximo tópico.
 
 ---
 
@@ -139,7 +140,7 @@ Este laboratório demonstrou a implementação prática de um banco de dados rel
 - **Alta disponibilidade**: configuração Multi-AZ com failover automático.  
 - **Integração**: aplicação web conectada ao banco via endpoint único.  
 - **Boas práticas**: banco em subnets privadas, aplicação em subnets públicas.  
-- **Resolução de problemas**: erros inesperados documentados e corrigidos durante a prática.  
+- **Resolução de problemas**: erros inesperados documentados e alternativas propostas.  
 
 ✅ **Resumo final:**  
 O exercício evidencia que o Amazon RDS é uma solução robusta para cargas de trabalho críticas, oferecendo **resiliência, segurança e simplicidade de gerenciamento** em ambientes de nuvem, mesmo diante de falhas inesperadas.
