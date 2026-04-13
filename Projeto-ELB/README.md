@@ -64,7 +64,8 @@ A arquitetura final é composta por:
 
 A partir da instância inicial (*Web Server 1*), foi criada uma **AMI** para padronizar futuras instâncias.  
 
-![Criação da AMI](./images/create-ami.png)
+![Criando AMI](./images/Criando-Imagem.png)  
+![AMI criada](./images/AMI-Criada.png)
 
 ---
 
@@ -77,7 +78,13 @@ Foi criado um **Application Load Balancer** para distribuir tráfego entre múlt
 - Target Group: `lab-target-group | HTTP`  
 - Porta: **80**  
 
-![Configuração do ALB](./images/alb-config.png)
+![Criando ALB](./images/Criando-ALB.png)  
+![Criando ALB - continuação](./images/Criando-ALB1.png)  
+![Grupo de segurança e listeners do ALB](./images/Grupo-Seguranca-Listener-ALB.png)  
+![Criando grupo de destino](./images/Criando-Grupo-Destino.png)  
+![Registro de destino](./images/Registro-Destino.png)  
+![Grupo de destino criado](./images/Grupo-Destino-Criado.png)  
+![ALB criado](./images/ALB-Criado.png)
 
 ---
 
@@ -89,7 +96,10 @@ Definido o **Launch Template** para instâncias EC2:
 - Tipo de instância: `t3.micro`  
 - Security Group: `Web Security Group`  
 
-![Launch Template](./images/launch-template.png)
+![Criando modelo de execução - parte 1](./images/Criando-Modelo-Execucao-1.png)  
+![Criando modelo de execução - parte 2](./images/Criando-Modelo-Execucao-2.png)  
+![Criando modelo de execução - parte 3](./images/Criando-Modelo-Execucao-3.png)  
+![Modelo de execução criado](./images/Modelo-Execucao-Criado.png)
 
 ---
 
@@ -105,7 +115,10 @@ Configurado o **ASG** com:
 - Capacidade máxima: **4**  
 - Política de escalonamento: **Target Tracking (CPU média = 50%)**  
 
-![Auto Scaling Group](./images/asg-config.png)
+![Criando ASC - parte 1](./images/Criando-ASC-1.png)  
+![Criando ASC - parte 2](./images/Criando-ASC-2.png)  
+![Criando ASC - parte 3](./images/Criando-ASC-3.png)  
+![Grupo ASC criado](./images/Grupo-ASC-Criado.png)
 
 ---
 
@@ -116,8 +129,7 @@ Após criação do ASG, duas instâncias *Lab Instance* foram iniciadas.
 - Verificação de integridade: **Saudável** no Target Group.  
 - Teste via DNS do ALB → aplicação respondeu corretamente.  
 
-![Instâncias saudáveis](./images/healthy-instances.png)  
-![Teste via DNS](./images/alb-dns-test.png)
+![Instâncias mínimas criadas pelo ASC](./images/Instancias-Minimas-Criadas-Pelo-ASC.png)
 
 ---
 
@@ -127,8 +139,10 @@ Após criação do ASG, duas instâncias *Lab Instance* foram iniciadas.
 - CloudWatch detectou CPU > 50%.  
 - AlarmHigh acionado → novas instâncias criadas automaticamente.  
 
-![CloudWatch Alarm](./images/cloudwatch-alarm.png)  
-![Novas instâncias criadas](./images/new-instances.png)
+![Alarme CloudWatch sem entrar no site](./images/Alarme-CloudWatch-sem-entrar-site.png)  
+![Entrou no site e usando CPU](./images/Entrou-site.png)  
+![CloudWatch em alarme](./images/CloudWatch-Em-alarme.png)  
+![Mais duas Lab Instance criadas](./images/Mais-Duas-Lab-Instance.png)
 
 ---
 
@@ -137,7 +151,7 @@ Após criação do ASG, duas instâncias *Lab Instance* foram iniciadas.
 A instância **Web Server 1** foi encerrada, pois não é mais necessária.  
 O ambiente agora depende apenas do Auto Scaling Group.  
 
-![Encerrando Web Server 1](./images/terminate-webserver1.png)
+![Encerrando Web Server 1](./images/Encerra-Web-Server.png)
 
 ---
 
@@ -163,4 +177,3 @@ Este laboratório demonstrou, na prática, como construir uma arquitetura **resi
 
 ✅ **Resumo final:**  
 O exercício evidencia como combinar serviços da AWS para criar uma solução **altamente disponível, segura e escalável**, alinhada às boas práticas de arquitetura em nuvem.  
-
