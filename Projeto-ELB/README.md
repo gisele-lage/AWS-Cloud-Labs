@@ -56,9 +56,6 @@ A arquitetura final é composta por:
 - **Target Group** conectando o ALB às instâncias EC2.  
 - **CloudWatch Alarms** monitorando métricas de CPU e acionando escalonamento.  
 
-> Espaço reservado para diagrama da arquitetura (a ser criado por você)  
-`![Diagrama da Arquitetura](./images/architecture-diagram.png)`
-
 ---
 
 ## ⚙️ Implementação Prática
