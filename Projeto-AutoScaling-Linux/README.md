@@ -16,28 +16,6 @@ Configurar uma infraestrutura auto-gerenciável na AWS, utilizando uma abordagem
 
 ---
 
-## ⚙️ Atividades Realizadas
-
-- Provisionamento de instância EC2 via **AWS CLI**.
-- Automação de instâncias utilizando scripts de **User Data** (Bash).
-- Criação de uma **Golden Image (AMI)** personalizada para padronização.
-- Implementação de um **Application Load Balancer (ALB)** para distribuição de carga.
-- Configuração de **Launch Templates** e **Auto Scaling Groups (ASG)**.
-- Execução de teste de estresse de CPU para validar a política de escalonamento horizontal.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- **AWS CLI:** Automação de infraestrutura via terminal.
-- **Amazon EC2:** Servidores virtuais (instâncias t3.micro).
-- **Amazon Machine Image (AMI):** Criação de moldes de sistema.
-- **Elastic Load Balancing (ELB):** Balanceamento de tráfego inteligente.
-- **Auto Scaling:** Elasticidade e gerenciamento de frota.
-- **Amazon CloudWatch:** Monitoramento e gatilhos de alarmes.
-
----
-
 ## 🏗️ Estrutura da Infraestrutura
 
 | Componente | Especificação | Finalidade |
@@ -50,76 +28,106 @@ Configurar uma infraestrutura auto-gerenciável na AWS, utilizando uma abordagem
 
 ---
 
-## ⚙️ Implementação Prática
+## ⚙️ Implementação Prática: Tarefa 1 (Provisionamento CLI)
 
-### 1. Provisionamento e Automação via CLI
+### 1. Preparação do Ambiente: O Command Host
+Para iniciar o projeto, utilizamos uma instância chamada **Command Host**.
 
-Nesta etapa, utilizei a linha de comando para configurar a região de trabalho e lançar a instância que serviria de base para o projeto. O diferencial aqui foi o uso de scripts de **User Data** para que o servidor já iniciasse com o Apache e PHP instalados e configurados.
+* **O que é:** Um servidor administrativo (*Bastion Host*) configurado para ser o ponto central de controle dentro da nuvem.
+* **Por que usamos:** Em vez de conectar via SSH diretamente do meu computador pessoal, usamos o Command Host para garantir um ambiente padronizado com o **AWS CLI** já instalado e isolado na rede do laboratório.
+* **Conexão:** O acesso foi feito via terminal utilizando comandos Linux, já que o sistema operacional do servidor é baseado em Unix.
 
-#### 🔧 Configuração e Lançamento
-![Configuração CLI e Run Instances](./images/cli-provisioning.png)
+### 2. Autenticação e Configuração
+Antes de enviar comandos para a AWS, precisei configurar as credenciais de acesso.
 
-> **Código CLI utilizado:**
+* **Comando:** `aws configure` (ou exportação de variáveis).
+* **Função:** Validar a identidade (Access Key e Session Token) para que a AWS permita o provisionamento dos recursos.
+![Imagem colocando as credenciais](./images/Imagem1.png)
+
+#### Validação de Região
+Executei o comando abaixo para confirmar a localização geográfica do laboratório:
+`curl http://169.254.169.254/latest/dynamic/instance-identity/document | grep region`
+* **Função:** Um comando Linux que consulta os metadados internos da instância para filtrar (`grep`) apenas a região ativa.
+
+### 3. Automação via User Data
+Naveguei até a pasta de scripts para validar a automação:
+`cd /home/ec2-user/`
+![Imagem entrando na pasta User-EC2](./images/Entrei-Pasta-EC2-User.png)
+
+Para inspecionar o script de instalação, usei:
+`more UserData.txt`
+* **Função:** O comando `more` permite visualizar o conteúdo de um arquivo de texto página por página. Este script contém as instruções de instalação do Apache e PHP que o servidor executará automaticamente no boot.
+![Imagem comando UserData](./images/ComandoUserData.png)
+
+### 4. Lançamento da Instância Base
+Após ajustar as credenciais de sessão, lancei o servidor que servirá de modelo:
+![Imagem do erro das credenciais corrigidos](./images/Erro-Corrigido-Credenciais.png)
+
+> **Comando de Provisionamento:**
 > ```bash
-> aws ec2 run-instances --key-name vockey --instance-type t3.micro --image-id ami-xxxxxxxx --user-data file://UserData.txt --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=WebServer}]'
+> aws ec2 run-instances --key-name vockey --instance-type t3.micro --image-id ami-0126145f1f70769be --user-data file:///home/ec2-user/UserData.txt --security-group-ids sg-0c7e1988b2ae2e3b3 --subnet-id subnet-08f6b8f60451cd349 --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=WebServer}]' --output text --query 'Instances[*].InstanceId'
 > ```
+![Imagem comando para ligar instancia](./images/Comando-Ligar-Instancia.png)
+
+#### Sincronização de Estado
+Utilizei o comando de espera para garantir que a instância estivesse pronta antes de prosseguir:
+`aws ec2 wait instance-running --instance-ids [ID-DA-INSTANCIA]`
+
+### 5. Validação e Golden Image
+Para testar o servidor, capturei seu DNS Público:
+`aws ec2 describe-instances --instance-id [ID] --query 'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' --output text`
+![Imagem para pegar DNS](./images/Comando-Pega-DNS.png)
+
+Ao acessar o endereço no navegador, confirmei que o servidor base estava operando corretamente com a aplicação ativa:
+![Imagem do servidor funcionando na web](./images/Servidor-base-criado.png)
+
+#### Comprovação no Console
+![Imagem mostrando a instancia no console comprovando que criou](./images/Instancia-Web-Server-criada-Console.png)
+
+#### Criando o Molde (AMI)
+Com o servidor validado, criei a **Golden Image (AMI)**:
+`aws ec2 create-image --name WebServerAMI --instance-id [ID]`
+* **Função:** Este comando "fotografa" o estado atual do servidor. Esta imagem será o padrão utilizado pelo Auto Scaling para criar novos clones idênticos em segundos.
+![Imagem do comando para criar imagem](./images/Comando-Criar-Imagem.png)
+
+#### AMI Disponível no Console
+![Imagem mostrando AMI criada no console](./images/AMI-Criada-Console.png)
 
 ---
 
-### 2. Criação da Golden Image (AMI)
+## ⚙️ Orquestração: Tarefa 2 & 3 (Console de Gerenciamento)
 
-Para garantir que o Auto Scaling consiga lançar novos servidores em segundos, foi criada uma **AMI**. Este processo "fotografa" o estado atual do servidor (SO + Apps + Configurações), criando um molde padrão.
+Com a AMI pronta, a infraestrutura foi conectada através de serviços de orquestração:
 
-#### 📸 Comando de Criação da Imagem
-![Criação da AMI](./images/ami-creation.png)
+### 1. Application Load Balancer (ALB)
+Configurado como o ponto único de entrada (DNS) para os usuários, distribuindo o tráfego para um **Target Group** monitorado. O ALB realiza *Health Checks* constantes para garantir que apenas servidores saudáveis recebam tráfego.
 
----
-
-### 3. Orquestração de Alta Disponibilidade (Console)
-
-A infraestrutura foi conectada através de um **Application Load Balancer**, que serve como o ponto único de entrada (DNS) para os usuários, distribuindo o tráfego para um **Target Group** monitorado.
-
-#### ⚖️ Balanceador de Carga e Target Group
-![Configuração do ALB](./images/alb-config.png)
-
-#### 📈 Grupo de Auto Scaling (ASG)
-O ASG foi configurado para monitorar a saúde das instâncias e gerenciar a quantidade de máquinas ativas nas sub-redes privadas.
-
-| Parâmetro | Valor Configurado |
-| :--- | :--- |
-| **Modelo de Execução** | web-app-launch-template |
-| **Zonas de Disponibilidade** | us-west-2a e us-west-2b |
-| **Verificações de Integridade** | Ativas via ELB |
+### 2. Auto Scaling Group (ASG)
+O ASG utiliza o **Launch Template** baseado na AMI criada via CLI.
+* **Capacidade Desejada:** 2 instâncias iniciais.
+* **Elasticidade:** Configurado para escalar até 4 instâncias caso a carga de trabalho aumente.
 
 ---
 
 ## ⚡ Teste de Estresse e Elasticidade
 
-A prova real da arquitetura foi o teste de carga. Ao acionar o script de estresse (100% de CPU), o comportamento do sistema foi monitorado em tempo real.
+A prova real da arquitetura foi o teste de carga. Ao acionar o script de estresse para consumir 100% de CPU, o comportamento do sistema foi monitorado:
 
-### 🚩 Alarme do CloudWatch
-O sistema identificou que a utilização média excedeu o limite de segurança de 50%.
-
-![Estresse de CPU iniciado](./images/stress-test-start.png)
-
-### 🚀 Resultado: Scaling Out
-O Auto Scaling respondeu imediatamente, provisionando novas instâncias para dividir a carga e manter a saúde da aplicação.
-
-![Nova instância lançada automaticamente](./images/scaling-activity.png)
+### 🚩 Alarme e Resposta
+O CloudWatch identificou o pico de processamento e disparou o alarme. O Auto Scaling respondeu imediatamente, provisionando novas instâncias para dividir a carga e manter a estabilidade da aplicação.
 
 ---
 
 ## 📝 Conclusão
 
-Este projeto consolidou conhecimentos fundamentais para a certificação **Cloud Practitioner** e para o dia a dia de um **Cloud Architect**.
+Este projeto consolidou o fluxo completo de entrega de infraestrutura moderna. Aprendi a utilizar a **CLI** para automação e o **Console** para gerenciamento de alto nível.
 
 ### Principais aprendizados:
+- **Troubleshooting de Identidade:** Resolução de erros de `AuthFailure` e gestão de tokens de sessão.
+- **Automação de Provisionamento:** Uso de Scripts Bash (User Data) para configuração *zero-touch*.
+- **Conceito de Golden Image:** Redução do tempo de deploy através de AMIs pré-configuradas.
 
-- **Infraestrutura Ágil:** O uso de AMIs e CLI reduz drasticamente o tempo de deploy de novos recursos.
-- **Segurança por Design:** A aplicação de sub-redes privadas isola os servidores de ataques diretos da internet, permitindo acesso apenas via Load Balancer.
-- **Otimização de Custos:** O Auto Scaling garante que a empresa pague apenas pelo recurso necessário, desligando máquinas extras em horários de baixo acesso.
-
-✅ **Status do Projeto:** Implementado com sucesso e validado sob carga.
+✅ **Status do Projeto:** Implementado com sucesso e documentado.
 
 ---
-> **Projeto desenvolvido por [Seu Nome] durante o treinamento de Cloud Architect.**
+> **Projeto desenvolvido por Gisele Lage durante o treinamento de Cloud Architect.**
