@@ -112,7 +112,7 @@ O ALB é o ponto de entrada único para os usuários. Ele distribui o tráfego e
 O segredo da elasticidade reside na combinação do modelo de configuração com o grupo de gerenciamento.
 
 * **Modelo de Execução (Launch Template):** É a "receita" que o Auto Scaling usa para criar novas máquinas. Ele contém o ID da AMI que criamos via CLI.
-![Imagem criando modelo execução](./images/Criando-Modelo-execução.png)
+![Imagem criando modelo execução](./images/Criando-Modelo-execucao.png)
 
 * **Auto Scaling Group (ASG):** Define as regras de crescimento (Mínimo 2 / Máximo 4). Ele monitora a saúde das instâncias e as substitui se necessário.
 ![Imagem criando grupo auto scaling parte 1](./images/Criando-Auto-Scaling.png)
@@ -148,6 +148,3 @@ Este projeto consolidou conhecimentos fundamentais para a certificação **Cloud
 - **Automação Híbrida:** Eficiência ao unir CLI (base) com Console (orquestração).
 
 ✅ **Status do Projeto:** Implementado com sucesso e validado.
-
----
-> **Projeto desenvolvido por Gisele Lage durante o treinamento de Cloud Architect.**
