@@ -11,6 +11,7 @@ Demonstrar a implementação de arquiteturas seguras e escaláveis na AWS, focan
 * [**Lab 03: VPC & Redes na AWS**](./Projeto-VPC/README.md) - Criação de uma Virtual Private Cloud (VPC), configuração de sub-redes, tabelas de rotas e lançamento de um servidor web (EC2).
 * [**Lab 04: Elastic Load Balancer (ELB)**](./Projeto-ELB/README.md) - Criação de um Application Load Balancer e integração com instâncias EC2.
 * [**Lab 05: Auto Scaling na AWS (Linux)**](./Projeto-AutoScaling-Linux/README.md) - Criação de AMI, configuração de Auto Scaling Group e Load Balancer utilizando AWS CLI.
+* [**Lab 06: CloudWatch & Monitoramento de Infraestrutura**](./Projeto-CloudWatch/README.md) - Implementação de dashboards de monitoramento, configuração de alarmes de métricas e análise de logs operacionais.
 * *(Próximos labs serão adicionados aqui...)*
 
 
