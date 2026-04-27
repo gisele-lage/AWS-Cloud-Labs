@@ -1,22 +1,29 @@
-# ☁️ AWS Cloud Labs 
+# ☁️ AWS Cloud Labs: Infrastructure, Security & Scalability
 
-Repositório dedicado à documentação técnica e prática de serviços AWS, integrando conceitos de **Segurança, IA e No Code**. Aqui aplico o conhecimento teórico em cenários reais de infraestrutura em nuvem.
+Este repositório centraliza a documentação técnica e a implementação prática de arquiteturas na **Amazon Web Services (AWS)**. O foco principal é a construção de ambientes resilientes, seguindo os pilares do **AWS Well-Architected Framework**.
 
-## 🎯 Objetivo
-Demonstrar a implementação de arquiteturas seguras e escaláveis na AWS, focando em automação e melhores práticas de governança de TI.
-
-## 📚 Índice de Laboratórios
-* [**Lab 01: IAM & Segurança de Identidade**](./Projeto-IAM/README.md) - Gestão de acessos, políticas de senha e auditoria de grupos.
-* [**Lab 02: RDS & Banco de Dados Relacional**](./Projeto-RDS/README.md) - Criação de instância RDS Multi-AZ, configuração de segurança e integração com aplicação web.
-* [**Lab 03: VPC & Redes na AWS**](./Projeto-VPC/README.md) - Criação de uma Virtual Private Cloud (VPC), configuração de sub-redes, tabelas de rotas e lançamento de um servidor web (EC2).
-* [**Lab 04: Elastic Load Balancer (ELB)**](./Projeto-ELB/README.md) - Criação de um Application Load Balancer e integração com instâncias EC2.
-* [**Lab 05: Auto Scaling na AWS (Linux)**](./Projeto-AutoScaling-Linux/README.md) - Criação de AMI, configuração de Auto Scaling Group e Load Balancer utilizando AWS CLI.
-* [**Lab 06: CloudWatch & Monitoramento de Infraestrutura**](./Projeto-CloudWatch/README.md) - Implementação de dashboards de monitoramento, configuração de alarmes de métricas e análise de logs operacionais.
-* *(Próximos labs serão adicionados aqui...)*
-
+## 🚀 Destaques Profissionais
+* **Foco em Segurança:** Implementação rigorosa do Princípio do Menor Privilégio (PoLP) e governança de Identidade (IAM).
+* **Alta Disponibilidade:** Projetos envolvendo Multi-AZ, Load Balancing e Auto Scaling para garantir resiliência.
+* **Monitoramento Ativo:** Gestão de infraestrutura baseada em dados com CloudWatch e análise de logs.
 
 ---
-## 🛠️ Tecnologias e Ferramentas
-* **Cloud:** AWS (IAM, S3, EC2...)
-* **Metodologia:** Princípio do Menor Privilégio (PoLP)
-* **Documentação:** Markdown, JSON
+
+## 📚 Laboratórios de Implementação
+
+| Lab | Serviço Principal | Descrição Técnica | Link |
+| :--- | :--- | :--- | :---: |
+| **01** | **IAM** | Governança de acessos, MFA, políticas granulares e auditoria. | [Visualizar](./Projeto-IAM/README.md) |
+| **02** | **RDS** | Banco de dados gerenciado com alta disponibilidade (Multi-AZ) e instâncias Read Replicas. | [Visualizar](./Projeto-RDS/README.md) |
+| **03** | **VPC & Networking** | Arquitetura de rede isolada, Subnets (Public/Private), Route Tables e Internet Gateways. | [Visualizar](./Projeto-VPC/README.md) |
+| **04** | **ELB** | Distribuição de tráfego inteligente com Application Load Balancer (ALB). | [Visualizar](./Projeto-ELB/README.md) |
+| **05** | **Auto Scaling** | Elasticidade computacional e automação de capacidade via AWS CLI e AMIs personalizadas. | [Visualizar](./Projeto-AutoScaling-Linux/README.md) |
+| **06** | **CloudWatch** | Observabilidade: Dashboards, Alarmes de faturamento/performance e CloudWatch Logs. | [Visualizar](./Projeto-CloudWatch/README.md) |
+
+---
+
+## 🛠️ Stack Tecnológica & Hard Skills
+* **Cloud Infrastructure:** AWS (EC2, S3, VPC, RDS, ELB, ASG, IAM, CloudWatch).
+* **Segurança & Compliance:** IAM Policies, Security Groups, NACLs, Shared Responsibility Model.
+* **Sistemas Operacionais:** Administração Linux (CLI).
+* **Ferramentas:** Git, JSON, YAML, Markdown.
