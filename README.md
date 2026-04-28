@@ -26,4 +26,3 @@ Este repositório centraliza a documentação técnica e a implementação prát
 * **Cloud Infrastructure:** AWS (EC2, S3, VPC, RDS, ELB, ASG, IAM, CloudWatch).
 * **Segurança & Compliance:** IAM Policies, Security Groups, NACLs, Shared Responsibility Model.
 * **Sistemas Operacionais:** Administração Linux (CLI).
-* **Ferramentas:** Git, JSON, YAML, Markdown.
