@@ -19,7 +19,7 @@ Este repositório centraliza a documentação técnica e a implementação prát
 | **04** | **ELB** | Distribuição de tráfego inteligente com Application Load Balancer (ALB). | [Visualizar](./Projeto-ELB/README.md) |
 | **05** | **Auto Scaling** | Elasticidade computacional e automação de capacidade via AWS CLI e AMIs personalizadas. | [Visualizar](./Projeto-AutoScaling-Linux/README.md) |
 | **06** | **CloudWatch** | Observabilidade: Dashboards, Alarmes de faturamento/performance e CloudWatch Logs. | [Visualizar](./Projeto-CloudWatch/README.md) |
-| **07** | **CloudFormation (IaC)** | Automação de infraestrutura como código: VPC, Subnets, Internet Gateway e Security Groups. | [Visualizar](./IaC-Infrastructure-as-Code-CloudFormation/README.md) |
+| **07** | **CloudFormation (IaC)** | Automação de infraestrutura como código: VPC, Subnets, Internet Gateway e Security Groups. | [Visualizar](./IaC-Infraestrutura-como-Codigo-CloudFormation/README.md) |
 
 
 ---
