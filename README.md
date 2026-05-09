@@ -13,13 +13,13 @@ Este repositório centraliza a documentação técnica e a implementação prát
 
 | Lab | Serviço Principal | Descrição Técnica | Link |
 | :--- | :--- | :--- | :---: |
-| **01** | **IAM** | Governança de acessos, MFA, políticas granulares e auditoria. | [Visualizar](./Projeto-IAM/README.md) |
-| **02** | **RDS** | Banco de dados gerenciado com alta disponibilidade (Multi-AZ) e instâncias Read Replicas. | [Visualizar](./Projeto-RDS/README.md) |
-| **03** | **VPC & Networking** | Arquitetura de rede isolada, Subnets (Public/Private), Route Tables e Internet Gateways. | [Visualizar](./Projeto-VPC/README.md) |
-| **04** | **ELB** | Distribuição de tráfego inteligente com Application Load Balancer (ALB). | [Visualizar](./Projeto-ELB/README.md) |
-| **05** | **Auto Scaling** | Elasticidade computacional e automação de capacidade via AWS CLI e AMIs personalizadas. | [Visualizar](./Projeto-AutoScaling-Linux/README.md) |
-| **06** | **CloudWatch** | Observabilidade: Dashboards, Alarmes de faturamento/performance e CloudWatch Logs. | [Visualizar](./Projeto-CloudWatch/README.md) |
-| **07** | **CloudFormation (IaC)** | Automação de infraestrutura como código: VPC, Subnets, Internet Gateway e Security Groups. | [Visualizar](./IaC-Infraestrutura-como-Codigo-CloudFormation/README.md) |
+| **01** | **Infraestrutura como Código (IaC) — CloudFormation** | Automação de infraestrutura como código: provisionamento e atualização incremental de VPC, Subnets, Internet Gateway, Security Groups, S3 e EC2. | [Visualizar](./IaC-Infraestrutura-como-Codigo-CloudFormation/README.md) |
+| **02** | **VPC & Networking** | Arquitetura de rede isolada com VPC, Subnets públicas/privadas, Route Tables e Internet Gateway. | [Visualizar](./Projeto-VPC/README.md) |
+| **03** | **IAM** | Governança de acessos, MFA, grupos, políticas granulares e princípio do menor privilégio. | [Visualizar](./Projeto-IAM/README.md) |
+| **04** | **Auto Scaling** | Elasticidade computacional e automação de capacidade com Launch Templates, AMIs e escalabilidade automática. | [Visualizar](./Projeto-AutoScaling-Linux/README.md) |
+| **05** | **CloudWatch** | Observabilidade em cloud: métricas, dashboards, alarmes e monitoramento centralizado de logs. | [Visualizar](./Projeto-CloudWatch/README.md) |
+| **06** | **ELB** | Distribuição de tráfego e alta disponibilidade com Application Load Balancer (ALB). | [Visualizar](./Projeto-ELB/README.md) |
+| **07** | **RDS** | Banco de dados gerenciado com alta disponibilidade, Multi-AZ e Read Replicas. | [Visualizar](./Projeto-RDS/README.md) |
 
 
 ---
