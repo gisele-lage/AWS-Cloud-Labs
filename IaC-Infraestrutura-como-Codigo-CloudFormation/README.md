@@ -244,6 +244,122 @@ Principais entregas:
 - recursos organizados em stack;
 - base pronta para as próximas etapas do laboratório.
 
+# 🚀 Implementação Prática — Etapa 2: Atualização da Stack com novo recurso (Desafio)
+
+Nesta etapa foi proposto um desafio: **modificar o template existente** para adicionar um novo recurso à infraestrutura já criada, sem recriar a stack do zero.
+
+O objetivo foi aplicar um dos principais benefícios do **AWS CloudFormation**: a capacidade de **evoluir uma infraestrutura existente por meio de atualizações controladas**.
+
+Neste caso, foi adicionado um bucket do **Amazon S3** à stack já existente.
+
+---
+
+## 🎯 Objetivo da atualização
+
+Adicionar um novo recurso de armazenamento à infraestrutura provisionada anteriormente:
+
+- :contentReference[oaicite:0]{index=0} Bucket
+
+Essa alteração foi feita diretamente no template YAML e aplicada utilizando o recurso de **Update Stack**.
+
+---
+
+## ✏️ Alteração realizada no template
+
+O arquivo YAML original foi editado na seção `Resources`, adicionando o seguinte bloco:
+
+```yaml
+  S3Bucket:
+    Type: AWS::S3::Bucket
+```
+
+Essa definição instrui o CloudFormation a criar um bucket do S3 utilizando a configuração padrão da AWS.
+
+> Como nenhum nome foi definido explicitamente, a AWS gerou automaticamente um nome único para o bucket.
+
+---
+
+## 1️⃣ Início da atualização da stack
+
+Ao invés de criar uma nova stack, foi utilizada a funcionalidade de **atualização da stack existente**, preservando todos os recursos já provisionados.
+
+![Início da atualização da stack](./images/Fazer_Atualizacao.png)
+
+---
+
+## 2️⃣ Upload do template atualizado
+
+Após editar o arquivo YAML, o novo template foi carregado no CloudFormation para substituir a versão anterior.
+
+Esse processo permite versionar e evoluir a infraestrutura de forma controlada.
+
+![Upload do template atualizado](./images/YAML_Atualizado.png)
+
+---
+
+## 3️⃣ Revisão das mudanças detectadas
+
+Antes de aplicar a atualização, o CloudFormation apresentou uma prévia das alterações que seriam executadas.
+
+Nesse momento foi possível validar que **apenas um novo recurso seria adicionado**, sem impacto nos recursos já existentes.
+
+Essa análise reduz riscos em ambientes reais de produção.
+
+![Visualização das alterações](./images/Imagem_Mostrando_Alteração.png)
+
+---
+
+## 4️⃣ Aplicação da atualização
+
+Após a confirmação, o CloudFormation executou a atualização da stack.
+
+Diferente da criação inicial, apenas o novo recurso foi provisionado.
+
+Esse comportamento demonstra um conceito importante:
+
+> o CloudFormation aplica **mudanças incrementais**, sem recriar toda a infraestrutura.
+
+![Bucket adicionado à stack](./images/S3_Adicionado.png)
+
+---
+
+## 5️⃣ Validação no console do Amazon S3
+
+Como etapa final, foi acessado o console do **Amazon S3** para confirmar a criação do bucket.
+
+A presença do bucket validou que a atualização da stack foi concluída com sucesso.
+
+![Validação do bucket no console S3](./images/S3_Console.png)
+
+---
+
+## ✅ Resultado da Etapa 2
+
+Ao final desta etapa, a stack foi atualizada com sucesso, incorporando um novo recurso sem impacto nos componentes já existentes.
+
+Principais aprendizados:
+
+- edição de templates YAML;
+- atualização incremental de stacks;
+- gerenciamento de mudanças em infraestrutura;
+- reaproveitamento de código IaC;
+- validação de mudanças antes da execução.
+
+---
+
+## 💡 Insight técnico
+
+Essa etapa demonstra uma vantagem estratégica do **Infrastructure as Code (IaC)**:
+
+em vez de alterar recursos manualmente no console, toda mudança é feita no **template fonte**, garantindo:
+
+- rastreabilidade;
+- versionamento;
+- padronização;
+- facilidade de rollback.
+
+Isso aproxima o gerenciamento de infraestrutura das práticas modernas de **DevOps**.
+
 ---
 
 ## 📝 Conclusão
