@@ -360,17 +360,249 @@ em vez de alterar recursos manualmente no console, toda mudança é feita no **t
 
 Isso aproxima o gerenciamento de infraestrutura das práticas modernas de **DevOps**.
 
+# 🚀 Implementação Prática — Etapa 3: Atualização da Stack com instância Amazon EC2
+
+Na etapa final do laboratório, a infraestrutura foi expandida novamente por meio de uma **atualização incremental da stack**, adicionando agora um recurso computacional: uma instância do **Amazon EC2**.
+
+Diferente da etapa anterior, esta atualização exigiu a integração com recursos já existentes da infraestrutura, como:
+
+- subnet pública;
+- security group;
+- parâmetros dinâmicos da AWS.
+
+Essa abordagem demonstra como o **CloudFormation permite evoluir ambientes complexos de forma modular e reutilizável**.
+
+---
+
+# 🎯 Objetivo da atualização
+
+Adicionar uma instância do :contentReference[oaicite:0]{index=0} à stack existente para representar um **servidor de aplicação** dentro da VPC criada anteriormente.
+
+---
+
+# ✏️ Alteração 1 — Novo parâmetro dinâmico
+
+Antes de criar a instância, foi adicionado um novo parâmetro ao template:
+
+```yaml
+AmazonLinuxAMIID:
+  Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+  Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+```
+
+## 📖 Explicação
+
+Esse parâmetro utiliza o :contentReference[oaicite:1]{index=1} para buscar automaticamente o ID da AMI mais recente do **Amazon Linux 2**.
+
+### Vantagens dessa abordagem:
+
+- evita informar AMI manualmente;
+- funciona em diferentes regiões AWS;
+- reduz risco de usar imagens desatualizadas;
+- melhora portabilidade do template.
+
+> Em ambientes reais, isso é uma boa prática de automação e manutenção.
+
+---
+
+# ✏️ Alteração 2 — Novo recurso EC2
+
+Após definir o parâmetro, foi adicionado o novo recurso:
+
+```yaml
+###########
+# EC2 Instance
+###########
+
+AppServer:
+  Type: AWS::EC2::Instance
+  Properties:
+    ImageId: !Ref AmazonLinuxAMIID
+    InstanceType: t3.micro
+    SecurityGroupIds:
+      - !Ref AppSecurityGroup
+    SubnetId: !Ref PublicSubnet
+    Tags:
+      - Key: Name
+        Value: App Server
+```
+
+---
+
+## 📖 Explicação de cada linha
+
+### `AppServer:`
+Identificador lógico do recurso dentro do template.
+
+É o nome usado pelo CloudFormation para controlar esse recurso.
+
+---
+
+### `Type: AWS::EC2::Instance`
+
+Define que o recurso criado será uma instância do :contentReference[oaicite:2]{index=2}.
+
+---
+
+### `ImageId: !Ref AmazonLinuxAMIID`
+
+Utiliza `!Ref` para buscar o valor do parâmetro criado anteriormente.
+
+Resultado:
+→ a instância será criada usando a **AMI mais recente do Amazon Linux 2**.
+
+---
+
+### `InstanceType: t3.micro`
+
+Define o tipo da máquina virtual.
+
+Características:
+- baixo custo;
+- ideal para laboratórios;
+- elegível para free tier em muitos cenários.
+
+---
+
+### `SecurityGroupIds`
+
+```yaml
+- !Ref AppSecurityGroup
+```
+
+Associa a instância ao **Security Group** criado anteriormente.
+
+Resultado:
+→ a instância herda as regras de firewall já definidas.
+
+Neste laboratório:
+- acesso HTTP liberado na porta 80.
+
+---
+
+### `SubnetId: !Ref PublicSubnet`
+
+Posiciona a instância dentro da **subnet pública** criada anteriormente.
+
+Resultado:
+→ a máquina passa a existir dentro da rede da VPC.
+
+---
+
+### `Tags`
+
+```yaml
+Key: Name
+Value: App Server
+```
+
+Define o nome visível da instância no console AWS.
+
+Isso facilita identificação e governança.
+
+---
+
+# 🔄 Atualização da stack
+
+Após editar o template, foi utilizada novamente a funcionalidade de **Update Stack** no CloudFormation.
+
+Dessa vez, o objetivo foi aplicar apenas a nova alteração, preservando todos os recursos criados anteriormente.
+
+Essa abordagem reforça um conceito importante:
+
+> infraestrutura não precisa ser recriada; ela pode ser **evoluída continuamente por código**.
+
+---
+
+## 1️⃣ Upload do novo template
+
+O arquivo YAML atualizado foi carregado no CloudFormation para substituir a versão anterior.
+
+![Upload do novo YAML](./images/YAML_Novo.png)
+
+---
+
+## 2️⃣ Validação da mudança detectada
+
+Antes da execução, o CloudFormation identificou que o novo recurso a ser adicionado era uma instância EC2.
+
+Isso confirma a capacidade da ferramenta de comparar versões do template.
+
+![EC2 identificada para criação](./images/EC2_Adcionar.png)
+
+---
+
+## 3️⃣ Recurso adicionado à stack
+
+Após a atualização, o novo recurso passou a aparecer na aba **Resources** da stack.
+
+Isso confirma que a alteração foi aplicada com sucesso.
+
+![EC2 adicionada aos recursos](./images/EC2_No_Recurso.png)
+
+---
+
+## 4️⃣ Validação no console EC2
+
+Por fim, foi acessado o console do :contentReference[oaicite:3]{index=3} para validar a criação da instância **App Server**.
+
+A presença da instância confirmou o sucesso do provisionamento.
+
+![Instância criada no console EC2](./images/EC2_Console.png)
+
+---
+
+# ✅ Resultado da Etapa 3
+
+Ao final desta etapa, a stack passou a conter:
+
+- infraestrutura de rede (VPC);
+- armazenamento (S3);
+- computação (EC2).
+
+Isso representa uma arquitetura cloud mais completa e próxima de um cenário real.
+
+---
+
+# 💡 Insight técnico
+
+Esta etapa mostrou um dos maiores benefícios do **Infrastructure as Code**:
+
+à medida que novas necessidades surgem, a infraestrutura pode ser expandida por meio de **mudanças controladas no template**, mantendo:
+
+- rastreabilidade;
+- versionamento;
+- padronização;
+- facilidade de auditoria.
+
 ---
 
 ## 📝 Conclusão
 
-Este laboratório demonstrou como o **CloudFormation** simplifica a criação de infraestrutura de rede na AWS.  
-Principais aprendizados:
+Este laboratório permitiu aplicar, de forma prática, conceitos fundamentais de **Infrastructure as Code (IaC)** utilizando o **AWS CloudFormation** para criar, atualizar e gerenciar recursos em nuvem de forma automatizada.
 
-- **Infraestrutura como Código (IaC)** → ambientes replicáveis e auditáveis.  
-- **Automação** → menos erros humanos e maior agilidade.  
-- **Governança** → integração com IAM e auditoria via CloudTrail.  
+Ao longo das etapas, foi possível evoluir uma mesma stack progressivamente, adicionando novos componentes sem recriar a infraestrutura existente, demonstrando um dos principais benefícios do modelo declarativo em cloud.
 
-✅ **Resumo final:** O CloudFormation é essencial para equipes que precisam de **escala, consistência e governança** na nuvem.
+### Principais aprendizados
+
+- **Infraestrutura como Código (IaC)**  
+  Definição de ambientes por meio de templates versionáveis, reutilizáveis e auditáveis.
+
+- **Provisionamento automatizado**  
+  Criação de recursos sem intervenção manual, reduzindo erros operacionais.
+
+- **Atualização incremental de infraestrutura**  
+  Capacidade de expandir ambientes existentes adicionando novos recursos de forma controlada.
+
+- **Gerenciamento de dependências**  
+  Uso de referências entre recursos (`!Ref`) para integração entre rede, segurança e computação.
+
+- **Escalabilidade e governança**  
+  Padronização de ambientes, rastreabilidade de mudanças e maior controle operacional.
+
+---
+
+✅ **Resumo final:**  
+O **AWS CloudFormation** demonstrou ser uma ferramenta essencial para automação e gerenciamento de infraestrutura em nuvem, permitindo construir ambientes **padronizados, escaláveis e reproduzíveis**, seguindo práticas modernas de **Cloud Engineering** e **DevOps**.
 
 
