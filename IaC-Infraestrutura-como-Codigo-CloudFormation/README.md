@@ -129,6 +129,121 @@ Outputs:
 
 <sub>👉 Em resumo: essa parte do código fornece informações úteis sobre recursos criados, permitindo consultar ou reutilizar esses valores em outras pilhas ou configurações.</sub>
 
+# 🚀 Implementação Prática — Etapa 1: Provisionamento da Infraestrutura Base
+
+Nesta primeira etapa foi realizado o **provisionamento automatizado da infraestrutura base de rede** utilizando o template do **AWS CloudFormation**.
+
+O objetivo desta fase foi criar a fundação do ambiente em nuvem, composta pela **VPC** e pelos recursos necessários para conectividade e segurança da rede.
+
+Os recursos provisionados nesta etapa incluem:
+
+- VPC principal (`LabVPC`)
+- Internet Gateway
+- Tabela de rotas pública
+- Subnet pública
+- Security Group padrão
+
+---
+
+## 1️⃣ Inicialização da stack
+
+O processo começou pela criação de uma nova **stack** no CloudFormation.
+
+A stack funciona como um contêiner lógico que agrupa todos os recursos definidos no template, permitindo gerenciá-los de forma centralizada.
+
+![Tela inicial de criação da stack](./images/CriarPilha_1.png)
+
+---
+
+## 2️⃣ Upload do template de infraestrutura
+
+Em seguida, foi realizado o upload do arquivo YAML contendo toda a definição da infraestrutura.
+
+Esse template descreve declarativamente os recursos que a AWS deve criar.
+
+![Upload do template YAML](./images/CriarPilha_2.png)
+
+---
+
+## 3️⃣ Definição dos parâmetros da implantação
+
+Durante a configuração da stack, foram definidos os detalhes da implantação, como o nome da stack e os parâmetros de rede.
+
+Neste laboratório, os blocos CIDR já estavam previamente configurados no template, permitindo reutilização padronizada da infraestrutura.
+
+![Definição dos parâmetros da stack](./images/CriarPilha_Detalhe.png)
+
+---
+
+## 4️⃣ Início do provisionamento
+
+Após a confirmação, a stack entrou em estado de criação.
+
+Nesse momento, o CloudFormation começou a interpretar o template e provisionar automaticamente os recursos na ordem correta.
+
+![Provisionamento em andamento](./images/Progresso_Criacao.png)
+
+---
+
+## 5️⃣ Acompanhamento dos eventos
+
+A aba **Events** permitiu acompanhar em tempo real cada ação executada pelo CloudFormation.
+
+Essa visualização é importante para:
+
+- monitorar progresso;
+- identificar dependências entre recursos;
+- diagnosticar falhas caso ocorram.
+
+![Eventos da stack](./images/Grafico_Eventos.png)
+
+---
+
+## 6️⃣ Criação ordenada dos recursos
+
+Na aba **Resources**, foi possível observar que os recursos foram criados respeitando suas dependências.
+
+Por exemplo:
+
+- a VPC foi criada antes da subnet;
+- o Internet Gateway foi criado antes da associação com a VPC;
+- a tabela de rotas foi configurada após a existência da rede.
+
+Esse gerenciamento automático de dependências é uma das principais vantagens do CloudFormation.
+
+![Recursos criados automaticamente](./images/Recursos_Criados.png)
+
+---
+
+## 7️⃣ Finalização da implantação
+
+Ao término do processo, a stack atingiu o status **CREATE_COMPLETE**, indicando que toda a infraestrutura foi provisionada com sucesso.
+
+![Stack criada com sucesso](./images/Criacao_Concluida.png)
+
+---
+
+## 8️⃣ Validação da infraestrutura criada
+
+Como etapa final de validação, foi acessado o console do serviço **VPC**, onde foi possível confirmar a criação da rede `LabVPC`.
+
+Essa verificação garante que o template foi executado corretamente e que os recursos estão disponíveis para uso.
+
+![Validação da LabVPC no console](./images/Console_LabVPC.png)
+
+---
+
+## ✅ Resultado da Etapa 1
+
+Ao final desta etapa, a infraestrutura base de rede foi criada com sucesso utilizando **Infrastructure as Code (IaC)**.
+
+Principais entregas:
+
+- ambiente de rede padronizado;
+- criação automatizada;
+- recursos organizados em stack;
+- base pronta para as próximas etapas do laboratório.
+
 ---
 
 ## 📝 Conclusão
