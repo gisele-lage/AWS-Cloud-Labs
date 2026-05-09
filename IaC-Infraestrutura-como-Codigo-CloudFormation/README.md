@@ -20,72 +20,114 @@ Implantar e gerenciar uma infraestrutura básica de rede utilizando **CloudForma
 
 ---
 
-## ⚙️ Atividades Realizadas
+## 📖 Conceitos Fundamentais
 
-- Upload do template `task1.yaml` no console do CloudFormation  
-- Análise das seções **Parameters**, **Resources** e **Outputs**  
-- Criação da pilha com status `CREATE_COMPLETE`  
-- Validação dos recursos provisionados no console da VPC  
-- Observação dos eventos e logs gerados pelo CloudFormation  
+### 🔹 CloudFormation não é programação
+O **CloudFormation** não é para escrever código de programação, mas sim **templates declarativos** em **YAML ou JSON**.  
+Esses templates descrevem **o que você quer que a AWS crie**.  
 
----
+👉 Isso é chamado de **Infraestrutura como Código (IaC)**: você declara os recursos, e toda a lógica de criação e ordem de dependências é feita automaticamente pela AWS.  
 
-## 🛠️ Tecnologias Utilizadas
-
-- **AWS CloudFormation** (Infraestrutura como Código)  
-- **Amazon VPC** (Virtual Private Cloud)  
-- **Subnets** (rede pública)  
-- **Internet Gateway**  
-- **Route Tables**  
-- **Security Groups**  
+### 🔹 Pilhas (Stacks)
+Na AWS, a infraestrutura é organizada em **pilhas (stacks)**.  
+- Uma pilha é o **conjunto de recursos criados a partir de um template**.  
+- Todos os recursos da pilha são **gerenciados juntos**: se você excluir a pilha, todos os recursos são removidos.  
 
 ---
 
-## 🏗️ Estrutura da Infraestrutura
+## ⚙️ Estrutura do Template YAML
 
-Este laboratório cria a seguinte arquitetura de rede:
-
-- **VPC** com CIDR `10.0.0.0/20`  
-- **Subnet pública** com CIDR `10.0.0.0/24`  
-- **Internet Gateway** conectado à VPC  
-- **Tabela de rotas pública** direcionando tráfego externo para o IGW  
-- **Security Group** permitindo tráfego HTTP (porta 80)  
+Os templates podem ser escritos em **YAML** (mais legível) ou **JSON** (mais verboso).  
+O formato é importante: recuos e hifens devem ser respeitados.
 
 ---
 
-## ⚙️ Implementação Prática
+### 📖 Explicação do YAML - Parameters
 
-### 📥 Upload do Template
+```yaml
+Parameters:
+  LabVpcCidr:
+    Type: String
+    Default: 10.0.0.0/20
+  PublicSubnetCidr:
+    Type: String
+    Default: 10.0.0.0/24
+```
+- **Parameters** → esta seção serve para definir valores que podem ser personalizados quando a pilha é criada.  
+- **LabVpcCidr** → representa o intervalo de endereços IP (CIDR) da VPC.  
+  - `Type: String` → o valor é tratado como texto.  
+  - `Default: 10.0.0.0/20` → se o usuário não informar nada, esse será o valor usado.  
+- **PublicSubnetCidr** → representa o intervalo de endereços IP da subnet pública.  
+  - Também é do tipo `String`.  
+  - `Default: 10.0.0.0/24` → valor padrão para a subnet.  
 
-Print da tela de upload do arquivo `task1.yaml`.
+<sub>👉 Em resumo: essa parte do código define **parâmetros de entrada** que tornam o template flexível.  
+Você pode reaproveitar o mesmo arquivo YAML em diferentes cenários apenas mudando os valores de CIDR na hora de criar a pilha.</sub>
 
-### 📝 Especificação de Detalhes
+### 📖 Explicação do YAML – Resources
 
-Print da tela **Specify Details** com o nome da pilha “Lab”.
+```yaml
+###########
+# VPC with Internet Gateway
+###########
 
-### 🔄 Criação da Pilha
+  LabVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref LabVpcCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: Lab VPC
 
-Print da tela de **Events** mostrando `CREATE_IN_PROGRESS`.
+  IGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Lab IGW
 
-### ✅ Resultado Final
+  VPCtoIGWConnection:
+    Type: AWS::EC2::VPCGatewayAttachment
+    DependsOn:
+      - IGW
+      - LabVPC
+    Properties:
+      InternetGatewayId: !Ref IGW
+      VpcId: !Ref LabVPC
+```
 
-Print da tela de **Resources** com todos os recursos criados.  
-Print do console da **VPC** mostrando a “Lab VPC”.
+- **Resources** → esta seção define os recursos que serão criados na pilha.  
+- **LabVPC** → cria uma VPC usando o CIDR definido em `LabVpcCidr`.  
+  - `EnableDnsSupport` e `EnableDnsHostnames` ativam suporte a DNS e nomes de host.  
+  - A tag `Name: Lab VPC` facilita a identificação no console.  
+- **IGW** → cria um **Internet Gateway**, que conecta a VPC à Internet.  
+- **VPCtoIGWConnection** → faz a ligação entre a VPC e o Internet Gateway.  
+  - `DependsOn` garante que tanto a VPC quanto o IGW existam antes da conexão.  
+  - `InternetGatewayId` e `VpcId` usam referências (`!Ref`) para apontar para os recursos criados.  
 
----
+<sub>👉 Em resumo: essa parte do código define a **rede principal (VPC)**, cria o **gateway de Internet** e estabelece a **conexão entre eles**, preparando a base da infraestrutura.  
+Além disso, o template também cria outros recursos como tabela de rotas pública, rota padrão, subnet pública, associação da subnet à tabela de rotas e um grupo de segurança para aplicações web.</sub>
 
-## 📊 Outputs
+### 📖 Explicação do YAML – Outputs
 
-O template fornece como saída o **Security Group padrão da VPC** criada.  
-Print da seção **Outputs** no CloudFormation.
+```yaml
+###########
+# Outputs
+###########
 
----
+Outputs:
 
-## 💡 Considerações
+  LabVPCDefaultSecurityGroup:
+    Value: !Sub ${LabVPC.DefaultSecurityGroup}
+```
 
-- O uso de CloudFormation garante **consistência** e **automação**.  
-- A pilha pode ser recriada em outra região sem esforço adicional.  
-- O rollback automático protege contra falhas durante a criação.  
+- **Outputs** → esta seção serve para expor valores de saída após a criação da pilha.  
+- **LabVPCDefaultSecurityGroup** → retorna o **Security Group padrão** da VPC criada.  
+  - `Value: !Sub ${LabVPC.DefaultSecurityGroup}` → utiliza a função `!Sub` para substituir dinamicamente o ID do Security Group associado à VPC.  
+
+<sub>👉 Em resumo: essa parte do código fornece informações úteis sobre recursos criados, permitindo consultar ou reutilizar esses valores em outras pilhas ou configurações.</sub>
 
 ---
 
